@@ -17,7 +17,3 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-if __name__ == "__main__":
-    logging.info("Logging has started")
-    logging.warning("This is a warning")
-    logging.error("This is an error")

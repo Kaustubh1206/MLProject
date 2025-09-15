@@ -1,0 +1,3 @@
+==> 2025-07-28 13:34:07 <==
+# cmd: /opt/anaconda3/bin/conda create -p venv -y
+# conda version: 24.11.3

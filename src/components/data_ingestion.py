@@ -8,7 +8,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses  import dataclass 
 
-# Data ingestion config
+from src.components.data_transformation import DataTransformation, DataTransformationConfig
+# Data ingestion config - providing input things which are required for data ingestion 
+
 @dataclass # decorator - > directly define class variable
 class DataIngestionConfig:
     train_data_path: str=os.path.join('artifacts','train.csv') # this will save all the train data in this path ( train.csv)
@@ -59,4 +61,7 @@ class DataIngestion:
 
 if __name__=="__main__":
     obj=DataIngestion()
-    obj.initate_data_ingestion()
+    train_data,test_data=obj.initate_data_ingestion()
+
+    data_transformation=DataTransformation()
+    data_transformation.initate_data_transformation(train_data,test_data)

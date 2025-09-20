@@ -1,0 +1,114 @@
+Data Pipeline Components
+1. Data Ingestion (data_ingestion.py)
+
+Purpose: Read raw data from an external source (CSV file here), save raw data, and split into train/test datasets.
+
+Key Steps:
+
+Read CSV using pandas.
+
+Create artifacts folder if it doesn’t exist.
+
+Save raw data: raw.csv.
+
+Split data: 80% train, 20% test.
+
+Save train/test CSVs.
+
+Return paths to train/test CSVs.
+
+Classes/Functions:
+
+DataIngestionConfig → Stores paths for raw, train, and test CSVs.
+
+DataIngestion → Orchestrates ingestion using initate_data_ingestion().
+
+2. Data Transformation (data_transformation.py)
+
+Purpose: Preprocess data so it can be fed into ML models.
+
+Key Steps:
+
+Identify numerical (reading_score, writing_score) and categorical features (gender, lunch, etc.).
+
+Build pipelines:
+
+Numerical pipeline → Impute missing values (median) + StandardScaler.
+
+Categorical pipeline → Impute (most frequent) + OneHotEncoding + StandardScaler.
+
+Apply ColumnTransformer to combine pipelines.
+
+Transform train/test data → return train_array, test_array.
+
+Save preprocessing object (preprocessor.pkl) for future use.
+
+Classes/Functions:
+
+DataTransformationConfig → Stores path for saved preprocessor.
+
+DataTransformation → Handles pipeline creation and applying transformations.
+
+3. Model Trainer (model_trainer.py)
+
+Purpose: Train multiple ML models, perform hyperparameter tuning using GridSearchCV, and save the best model.
+
+Key Steps:
+
+Split features (X) and target (y) from train/test arrays.
+
+Define ML models:
+
+Random Forest, Decision Tree, Gradient Boosting, Linear Regression, KNN, XGBoost, CatBoost, AdaBoost.
+
+Define hyperparameter grid for each model.
+
+Evaluate each model:
+
+Fit with GridSearchCV.
+
+Train model on full training set with best parameters.
+
+Compute r2_score.
+
+Pick the best model based on test r2_score.
+
+Save the trained model (model.pkl).
+
+Classes/Functions:
+
+ModelTrainerConfig → Path to save trained model.
+
+ModelTrainer → Main class with initiate_model_trainer() method.
+
+4. Utils (utils.py)
+
+Purpose: Helper functions for saving objects and evaluating models.
+
+Key Functions:
+
+save_object(file_path, obj) → Saves any object (like model or preprocessor) using dill.
+
+evaluate_model(X_train, y_train, X_test, y_test, models, param) → Performs hyperparameter tuning and evaluates multiple models.
+
+5. Exception Handling (exception.py)
+
+Purpose: Centralized exception handling to make debugging easier.
+
+Key Classes/Functions:
+
+CustomException → Formats errors with file name and line number.
+
+error_message_detail() → Extracts detailed info about exceptions.
+
+6. Logger (logger.py)
+
+Purpose: Track the execution flow and store logs in timestamped log files.
+
+Key Features:
+
+Logs stored in logs folder.
+
+Each run has a unique timestamped log file.
+
+Configured for INFO level messages.
